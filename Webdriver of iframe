@@ -1,0 +1,56 @@
+Java：
+main.html   
+<</span>html>  
+    <</span>head>  
+        <</span>title>FrameTest</</span>title>  
+    </</span>head>  
+    <</span>body>  
+    <</span>div id = "id1">this is a div!</</span>div>  
+        <</span>iframe id = "frame１"  frameborder="0" scrolling="no" style="left:0;position:absolute;" src = "frame.html"></</span>iframe>  
+    </</span>body>  
+</</span>html>   
+  
+  
+frame.html 
+<</span>html>  
+    <</span>head>  
+        <</span>title>this is a frame!</</span>title>  
+    </</span>head>  
+    <</span>body>  
+    <</span>div id = "div1">this is a div，too!</</span>div>  
+    <</span>label>input:</</span>label>  
+    <</span>input id = "input1"></</span>input>  
+    </</span>body>  
+</</span>html>
+1.iFrame有ID 或者 name的情况
+//进入id="frame1"的frame中，定位id="div1"的div和id="input1"的输入框。
+dr.switchTo().frame("frame1");
+dr.findElement(By.id("div1"));
+dr.findElement(By.id("input1"))
+
+2.如果一个iFrame既没有id，也没有name,通用情况
+// 定位frame位置，并选取frame
+WebElement frame=driver.findElement(By.xpath( "/html/body/div[2]/div[8]/div[2]/div[3]/div/div[2]/div/iframe" ));
+driver.switchTo().frame(frame);
+
+3.跳出iFrame
+//跳出frame,进入default content;重新定位id="id1"的div
+dr.switchTo().defaultContent();
+dr.findElement（By.id("id１")）
+
+
+Python:
+
+driver.switch_to_window()
+ 
+有可能嵌套的不是框架，而是窗口，还有真对窗口的方法：switch_to_window
+用法与switch_to_frame 相同：
+driver.switch_to_window("windowName")
+
+switch_to_frame()
+操作上面页面，代码如下：
+
+#coding=utf-8 from selenium import webdriver import time import os  browser = webdriver.Firefox() file_path =  'file:///' + os.path.abspath('frame.html') browser.get(file_path)  browser.implicitly_wait(30) #先找到到ifrome1（id = f1） browser.switch_to_frame("f1") #再找到其下面的ifrome2(id =f2) browser.switch_to_frame("f2") 
+
+#下面就可以正常的操作元素了 browser.find_element_by_id("kw").send_keys("selenium") browser.find_element_by_id("su").click() time.sleep(3) 
+browser.quit()
