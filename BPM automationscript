@@ -1,0 +1,144 @@
+ #!/usr/bin/python
+ # -*- coding: UTF-8 -*-
+ #发起销售流程脚本创建
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoAlertPresentException
+from selenium.webdriver.common.action_chains import ActionChains
+import unittest, time, re
+
+driver = webdriver.Firefox()
+driver.implicitly_wait(30)
+base_url = "http://      "
+driver.maximize_window()
+verificationErrors = []
+accept_next_alert = True
+driver.get(base_url + "/admin/AdminLogin")
+driver.find_element_by_id("Admin_loginForm_username").clear()
+driver.find_element_by_id("Admin_loginForm_username").send_keys(u"Will")
+driver.find_element_by_id("Admin_loginForm_password").clear()
+driver.find_element_by_id("Admin_loginForm_password").send_keys("2109")
+#         driver1.find_element_by_xpath("//form[@id='login-form']/div[2]/label").click()
+driver.find_element_by_xpath(".//*[@id='login-form']/div[4]").click()
+        
+#         点击bpm模块
+driver.find_element_by_id('bpmTab').click()
+driver.implicitly_wait(10) 
+        
+       
+#         进入mainFrame
+iframe=driver.find_element_by_id('mainFrame')
+driver.switch_to.frame(iframe)
+driver.implicitly_wait(15) 
+#         点击“发起流程”
+driver.find_element_by_class_name("cur").click()
+driver.implicitly_wait(10)
+        
+#         点击销售申请表的“+”
+driver.find_element_by_class_name("yw-list-r").click()
+driver.implicitly_wait(10)
+        
+#         输入“客户公司名称”
+driver.find_element_by_id("saleorder-user_title_id").clear()
+driver.find_element_by_id("saleorder-user_title_id").send_keys("shanghai")
+driver.find_element_by_css_selector("div[value=\"CHINA GREAT WALL INDUSTRY SHANGHAI CO.,LTD\"]").click()
+driver.implicitly_wait(10)
+
+#         输入产品“品名”
+driver.find_element_by_id("orderitem-0-product_id").click()
+driver.find_element_by_id("orderitem-0-product_id").clear()
+driver.find_element_by_id("orderitem-0-product_id").send_keys(u"乙二醇")
+driver.find_element_by_css_selector(u"div[value=\"乙二醇\"]").click()
+driver.implicitly_wait(10)
+        
+#         输入“重量”
+driver.find_element_by_id("orderitem-0-quantity").click()
+driver.find_element_by_id("orderitem-0-quantity").clear()
+driver.find_element_by_id("orderitem-0-quantity").send_keys("670")
+driver.implicitly_wait(10)
+        
+#         输入“单价”
+driver.find_element_by_id("orderitem-0-price").click()
+driver.find_element_by_id("orderitem-0-price").clear()
+driver.find_element_by_id("orderitem-0-price").send_keys("7000")
+driver.implicitly_wait(10)
+        
+#         输入“协议运输费”
+driver.find_element_by_id("saleorder-trans_cost").click()
+driver.find_element_by_id("saleorder-trans_cost").clear()
+driver.find_element_by_id("saleorder-trans_cost").send_keys("400")
+driver.implicitly_wait(10)
+        
+        
+#         输入“采购成本”
+driver.find_element_by_id("saleorder-purchase_cost").click()
+driver.find_element_by_id("saleorder-purchase_cost").clear()
+driver.find_element_by_id("saleorder-purchase_cost").send_keys("4000000")
+driver.implicitly_wait(10)
+        
+#         输入“传真”
+driver.find_element_by_id("saleorder-fax").click()
+driver.find_element_by_id("saleorder-fax").clear()
+driver.find_element_by_id("saleorder-fax").send_keys("88888888")
+driver.implicitly_wait(10)
+        
+#         输入”付款方式“
+driver.find_element_by_css_selector("option[value=\"37\"]").click()
+Select(driver.find_element_by_id("saleorder-payment_method")).select_by_visible_text(u"现金")
+driver.find_element_by_css_selector("option[value=\"44\"]").click()
+driver.implicitly_wait(10)
+        
+#         输入“预计到款日期”
+driver.find_element_by_id("saleorder-expected_date").click()
+driver.find_element_by_link_text("17").click()
+driver.implicitly_wait(10)
+        
+#         输入“货源”
+#         driver.find_element_by_id("saleorder-supply_of_goods").click()
+driver.find_element_by_css_selector("option[value=\"1001\"]").click()
+Select(driver.find_element_by_id("saleorder-supply_of_goods")).select_by_visible_text(u"以销定采")
+driver.find_element_by_css_selector("option[value=\"1003\"]").click()
+driver.implicitly_wait(10)
+        
+#         输入“交货期限”
+driver.find_element_by_id("saleorder-delivery_date").click()
+driver.find_element_by_link_text("26").click()
+driver.implicitly_wait(10)
+        
+#         输入“结算方式”
+#         driver.find_element_by_id("saleorder-balance_method").click()
+driver.find_element_by_css_selector("#saleorder-balance_method > option[value=\"2\"]").click()
+Select(driver.find_element_by_id("saleorder-balance_method")).select_by_visible_text(u"电汇")
+driver.find_element_by_css_selector("#saleorder-balance_method > option[value=\"2\"]").click()        
+time.sleep(2)
+        
+#         选择“库区”
+driver.find_element_by_id("saleorder-buffer_location").send_keys(u"301库")
+print"#######"
+driver.find_element_by_css_selector(u"div[value=\"化工仓库_301库\"]").click()
+driver.implicitly_wait(10)
+
+
+driver.implicitly_wait(10)
+        
+#         选择金融产品
+#         driver.find_element_by_id("saleorder-financial_type").click()
+driver.find_element_by_css_selector("#saleorder-financial_type > option[value=\"0\"]").click()
+Select(driver.find_element_by_id("saleorder-financial_type")).select_by_visible_text(u"不使用")
+driver.find_element_by_css_selector("#saleorder-financial_type > option[value=\"0\"]").click()
+driver.implicitly_wait(10)
+         
+#          点击提交按钮
+driver.find_element_by_id("submitBtn").click()
+time.sleep(10)
+        
+#         
+driver.find_element_by_css_selector("table.ui-datepicker-calendar").is_displayed()
+#     return 
+driver.find_element_by_css_selector("table.ui-datepicker-calendar").is_displayed()
+#     return
+driver.find_element_by_class_name("ok").click()
+driver.close()
